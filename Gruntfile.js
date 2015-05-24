@@ -30,47 +30,44 @@ module.exports = function(grunt) {
 		},
 
 		//upload static files to qiniu space
-		 qiniu: {
-		        config: {
-		            options: {
-		                accessKey: config.accessKey,
-		                secretKey: config.secretKey,
-		                bucket: config.bucket,
-		                domain: config.domain,
-		                resources: [{
-		                    cwd: '_site/js/',
-		                    pattern: '**/*.*',
-		                },
-		                {
-		                	cwd: '_site/',
-		                	pattern : 'main.css'
-		                },
-		                {
-		                	cwd: '_site/',
-		                	pattern : 'bower_components/octicons/octicons/*.*'
-		                },
-		                ],
-		                keyGen: function(cwd, file) {
-		                    return 'assets/'+file;
-		                }
-		        }
-		    }
+		qiniu: {
+			config: {
+				options: {
+					accessKey: config.accessKey,
+					secretKey: config.secretKey,
+					bucket: config.bucket,
+					domain: config.domain,
+					resources: [{
+						cwd: '_site/js/',
+						pattern: '**/*.*',
+					}, {
+						cwd: '_site/',
+						pattern: 'main.css'
+					}, {
+						cwd: '_site/',
+						pattern: 'bower_components/octicons/octicons/*.*'
+					}, ],
+					keyGen: function(cwd, file) {
+						return 'assets/' + file;
+					}
+				}
+			}
 		},
-		
-	    buildcontrol: {
-	        options: {
-	          dir: '_site',
-	          commit: true,
-	          push: true,
-	          message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
-	        },
-	        pages: {
-	          options: {
-	            remote: 'git@github.com:aisuhua/blog.git',
-	            branch: 'gh-pages'
-	          }
-	        }
-	      }
+
+		buildcontrol: {
+			options: {
+				dir: '_site',
+				commit: true,
+				push: true,
+				message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
+			},
+			pages: {
+				options: {
+					remote: 'git@github.com:aisuhua/blog.git',
+					branch: 'gh-pages'
+				}
+			}
+		}
 	});
 
 	// Load dependencies
@@ -82,7 +79,7 @@ module.exports = function(grunt) {
 
 	// Generate and format the CSS
 	grunt.registerTask('default', ['jekyll', 'autoprefixer']);
-	
+
 	grunt.registerTask('upload', ['qiniu']);
 
 	// Publish to GitHub
