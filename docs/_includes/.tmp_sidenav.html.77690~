@@ -1,0 +1,17 @@
+<div class="one-fourth column">
+	<div class="blog-aside">
+		<nav class="menu">
+		  {% for category in site.categories %}
+		  	{% if category.first == page.category %}
+				<a class="menu-item selected" href="{{ site.baseurl }}/categories/{{ category[0] }}"><span class="counter">{{ category | last | size }}</span>{{ category | first }}</a>
+			{% else %}
+			 	<a class="menu-item" href="{{ site.baseurl }}/categories/{{ category[0] }}"><span class="counter">{{ category | last | size }}</span>{{ category | first }}</a>
+			{% endif %}
+		  {% endfor %}		  
+		</nav>
+		<a class="rss" href="{{ site.baseurl }}/feed.xml">
+		    <span class="octicon octicon-rss"></span>
+		    Subscribe
+		</a>
+	</div>
+</div> 

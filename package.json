@@ -1,0 +1,23 @@
+{
+  "name": "blog",
+  "version": "0.0.1",
+  "homepage": "http://aisuhua.github.io/blog/",
+  "description": "Hi, This is Suhua Blog.",
+  "author": "su aisuhua <1079087531@qq.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aisuhua/blog.git"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-autoprefixer": "~2.2.0",
+    "grunt-build-control": "~0.2.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-jekyll": "~0.4.2",
+    "grunt-parker": "~0.1.0",
+    "grunt-qiniu-deploy": "^0.1.4",
+    "grunt-sass": "~0.18.0",
+	"grunt-qiniu-deploy": "0.1.4"
+  }
+}

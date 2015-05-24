@@ -1,0 +1,36 @@
+# Site settings
+title: The Suhua Blog 
+email: 1079087531@qq.com
+description: Hi, This is Suhua Blog.
+  
+source: docs
+url: http://aisuhua.github.io/
+baseurl: "/blog" # the subpath of your site, e.g. /blog/
+
+zhihu_username: aisuhua
+segmentfault_username: aisuhua
+github_username:  aisuhua
+cnblogs_username:  isuhua
+
+# Build settings
+markdown: kramdown
+
+kramdown:
+  auto_ids: true
+
+sass:
+  sass_dir: ../
+  style: compressed
+  
+highlighter: rouge 
+
+paginate: 10
+
+excerpt_separator: "\n\n\n"
+
+version: 0.0.1
+
+use_local_static: false # set the value 'true' if you want to use local static files such as js/css.
+
+assects_url: http://7xj8ix.com1.z0.glb.clouddn.com/assets # the url of static files in qiniu
+

@@ -1,0 +1,20 @@
+{
+  "name": "suhua-blog",
+  "dependencies": {
+    "primer-css": "2.1.0"
+  },
+  "version": "0.0.1",
+  "authors": [
+    "aisuhua <1079087531@qq.com>"
+  ],
+  "description": "Hi, This is Suhua Blog.",
+  "license": "MIT",
+  "homepage": "https://github.com/aisuhua/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

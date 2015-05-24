@@ -1,0 +1,29 @@
+<div class="footer">
+	<div class="container">
+	  <div class="site-footer">
+	    <ul class="site-footer-links">
+	      <li><span class="tooltipped tooltipped-n" aria-label="一个记录着我成长历程的博客。">The Suhua Blog</span></li>
+	        <li><a href="{{site.baseurl}}/">博客</a></li>
+	        <li><a href="javascript:void(0);" class="tooltipped tooltipped-ne" aria-label="别急，我还在整理呢~">智库</a></li>
+	        <li><a href="https://github.com/{{ site.github_username }}">Github</a></li>
+			<li><a href="http://www.cnblogs.com/{{ site.cnblogs_username }}">博客园</a></li>
+			<li><a href="http://segmentfault.com/u/{{ site.segmentfault_username }}">Segmentfault</a></li>
+			<li><a href="http://www.zhihu.com/people/{{ site.zhihu_username }}">知乎</a></li>
+	        <li><a href="{{site.baseurl}}/about/">关于</a></li>
+	    </ul>
+	  </div>
+	</div>
+</div>
+
+{% if site.use_local_static %}
+<script src="{{site.baseurl}}/js/anchor.min.js"></script>
+<script src="{{site.baseurl}}/js/highlight.min.js"></script>
+{% else %}
+<script src="{{site.assects_url}}/anchor.min.js"></script>
+<script src="{{site.assects_url}}/highlight.min.js"></script>
+{% endif %}
+
+<script>
+anchors.add('.markdown-body h2, .markdown-body h3, .markdown-body h4');
+hljs.initHighlightingOnLoad();
+</script>

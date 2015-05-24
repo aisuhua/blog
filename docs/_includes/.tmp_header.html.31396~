@@ -1,0 +1,7 @@
+<div class="pagehead">
+	<div class="container">
+		<h1>
+			<a href="{{ site.baseurl }}/" class="blog-title">The SuHua Blog</a>
+		</h1>
+	</div>
+</div>

@@ -1,0 +1,312 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+@charset "utf-8";
+
+// Import partials from `sass_dir` (defaults to `_sass`)
+
+@import "bower_components/primer-css/scss/primer";
+@import "bower_components/octicons/octicons/octicons.css";
+@import "bower_components/primer-markdown/components/markdown.scss";
+@import "css/anchor";
+@import "css/github";
+
+// Our variables
+
+.header {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	min-width: 1000px;
+	background-color: #f5f5f5;
+	border-bottom: 1px solid #e5e5e5;
+}
+.header-logo-invertocat {
+	float: left;
+	margin-right: 10px;
+	margin-left: -2px;
+	color: #333;
+	white-space: nowrap;
+}
+.header-logo-invertocat .octicon-mark-github {
+	float: left;
+	width: 28px;
+	height: 28px;
+	font-size: 28px;
+}
+.site-search {
+	position: relative;
+	float: left;
+}
+.site-search form {
+	position: relative;
+	float: left;
+	width: 360px;
+	margin-right: 10px;
+	background:none;
+	border:none;
+}
+.site-search .chromeless-input {
+	min-height: 26px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 12px;
+}
+.header-nav {
+	list-style: none;
+}
+.header-nav-item {
+	float: left;
+}
+.header-nav-link {
+	display: block;
+	padding: 4px 8px;
+	font-size: 13px;
+	font-weight: bold;
+	line-height: 20px;
+	color: #333;
+}
+.header-nav-link:hover,
+.header-nav-link:focus {
+	color:#4183c4;
+	text-decoration:none
+}
+.header-nav-link:hover 
+.dropdown-caret,
+.header-nav-link:focus 
+.dropdown-caret {
+	border-top-color:#4183c4
+}
+.pagehead {
+	position: relative;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #eee;
+}
+.pagehead h1 {
+	margin-bottom: 0;
+	font-weight: normal;
+	line-height: 28px;
+	margin-top: 3px;
+	font-size: 24px
+}
+.blog-title {
+	color:#333;
+}
+.blog-search {
+	position: relative;
+	float: right;
+}
+#blog-home {
+  color: #ccc;
+  font-size: 15px;
+  font-weight: 100;
+  margin-right: 10px;
+  margin-left: -25px;
+  vertical-align: middle;
+}
+#blog-home:hover {
+	color:#999
+}
+@media (max-width: 42em) {
+	#blog-home {
+		margin-left:0px;
+	}
+	#blog-home .octicon-home {
+		font-size: 20px;
+	}
+}
+/* menu */
+.blog-aside {
+	padding-left:40px;
+}
+@media (max-width: 42em) {
+	.blog-aside {
+		padding-left:0px;
+	}
+}
+.blog-aside .rss {
+	display: inline-block;
+	margin-left: 5px;
+	color: #999;
+}
+.blog-aside .rss .octicon {
+	float: left;
+	margin-right: 5px;
+	color: #f93;
+}
+.blog-content {
+	font-family: "Helvetica Neue", Helvetica, Arial, freesans, sans-serif;
+	padding-right: 45px;
+}
+.container {
+	width: auto;
+	max-width: 1020px;
+	padding-left: 20px;
+	padding-right: 20px;
+ }
+.posts {
+	
+}
+.blog-post {
+	margin-bottom: 60px;
+}
+.blog-post-title {
+	margin-top: 0;
+	margin-bottom: 10px;
+	font-size: 32px;
+	font-weight:500;
+}
+.blog-post-body {
+	word-wrap: break-word;
+	color: #515151;
+}
+.blog-post-meta {
+	list-style: none;
+	margin-bottom: 23px;
+	color: #999;
+}
+.blog-post-meta .meta-item {
+	display: inline;
+	padding-right: 20px;
+}
+.blog-post-meta a {
+	color: #999;
+}
+.author-avatar {
+	vertical-align: top;
+	border-radius: 8px;
+}
+.blog-post-body img {
+	padding: 3px;
+	border: 1px solid #d8d8d8;
+}
+
+.markdown-body {
+	font-size:16px;
+	line-height:1.75;
+}
+
+.markdown-body h2 {
+	font-size: 1.25em;
+}
+.markdown-body h3 {
+	font-size: 1.10em;
+}
+.markdown-body h4 {
+	font-size: 1.10em;
+}
+
+/* pagination */
+.paginate-container {
+	margin-top: 20px;
+	margin-bottom: 15px;
+	text-align: center
+}
+.paginate-container .pagination {
+	display: inline-block
+}
+.pagination:before {
+	display: table;
+	content: ""
+}
+.pagination:after {
+	display: table;
+	clear: both;
+	content: ""
+}
+.pagination a,.pagination span,.pagination em {
+	position: relative;
+	float: left;
+	margin-left: -1px;
+	font-size: 13px;
+	font-weight: bold;
+	font-style: normal;
+	padding: 7px 12px;
+	color: #4183c4;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none
+}
+.pagination a:first-child,.pagination span:first-child,.pagination em:first-child {
+	margin-left: 0;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px
+}
+.pagination a:last-child,.pagination span:last-child,.pagination em:last-child {
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px
+}
+.pagination a:hover,.pagination a:focus,.pagination span:hover,.pagination span:focus,.pagination em:hover,.pagination em:focus {
+	z-index: 2;
+	background-color: #e7e7e7;
+	border-color: #e5e5e5;
+	text-decoration: none
+}
+.pagination .selected {
+	z-index: 3
+}
+.pagination .current,.pagination .current:hover {
+	z-index: 3;
+	color: #fff;
+	background-color: #4183c4;
+	border-color: #4183c4
+}
+.pagination .gap,.pagination .disabled,.pagination .gap:hover,.pagination .disabled:hover {
+	background-color: #fafafa;
+	cursor: default;
+	color: #d3d3d3
+}
+
+/* footer */
+.site-footer {
+  position: relative;
+  margin-top: 40px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #777;
+  border-top: 1px solid #eee;
+}
+.site-footer-links {
+  margin: 0;
+  list-style: none;
+}
+.site-footer-links li {
+  display: inline-block;
+  line-height: 16px;
+}
+.site-footer-links li+li {
+  margin-left: 10px;
+}
+.site-footer .github-face {
+	border-radius:10px;
+	-webkit-filter: grayscale(50%);
+	-moz-filter: grayscale(100%);
+	-ms-filter: grayscale(100%);
+	-o-filter: grayscale(100%);
+	filter: grayscale(50%);
+	filter: gray;
+}
+
+@media (max-width: 42em) {
+	.blog-layout>.column {
+		float: none;
+		width: 100%
+	}
+	.blog-layout .blog-content {
+		padding-right:0px;
+	}
+}
+
+/* duoshuo rewrite */
+#ds-wrapper #ds-reset .ds-control-group input {
+	min-height: 24px;
+}

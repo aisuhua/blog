@@ -1,0 +1,12 @@
+
+/**
+ * qiniu config
+ */
+module.exports = {
+	accessKey : 'Sa9I3EeL5+GvUqOiNZzxUTc8P9w7cq5XBe',
+	secretKey : 'p0gosTwCX4G2GdZQjyzqFs1rmy55QLQYxLN+XRX',
+	bucket : 'mybucket',
+	domain : 'http://up.qiniu.com'
+}
+
+

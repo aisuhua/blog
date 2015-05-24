@@ -1,0 +1,24 @@
+<div class="footer">
+	<div class="container">
+	  <div class="site-footer">
+	    <ul class="site-footer-links">
+	      <li><span class="tooltipped tooltipped-n" aria-label="一个记录着我成长历程的博客。">The Suhua Blog</span></li>
+	        <li><a href="https://github.com/site/terms">博客</a></li>
+	        <li><a href="javascript:void(0);">智库</a></li>
+	        <li><a href="https://github.com/aisuhua/">Github</a></li>
+			<li><a href="http://www.cnblogs.com/isuhua">博客园</a></li>
+			<li><a href="http://segmentfault.com/u/aisuhua">Segmentfault</a></li>
+			<li><a href="http://www.zhihu.com/people/aisuhua">知乎</a></li>
+	        <li><a href="https://github.com/contact" data-ga-click="Footer, go to contact, text:contact">关于</a></li>
+	    </ul>
+	  </div>
+	</div>
+</div>
+
+<script src="{{site.baseurl}}/js/anchor.min.js"></script>
+<script src="http://cdn.bootcss.com/highlight.js/8.5/highlight.min.js"></script>
+<script>
+var selector = '.markdown-body h2, .markdown-body h3, .markdown-body h4';
+addAnchors(selector);
+hljs.initHighlightingOnLoad();
+</script>

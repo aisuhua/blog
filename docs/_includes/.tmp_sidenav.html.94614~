@@ -1,0 +1,15 @@
+<div class="one-fourth column">
+	<div class="blog-aside">
+		<nav class="menu">
+		  <a class="menu-item selected" href="#">PHP</a>
+		  <a class="menu-item" href="#">前端技术</a>
+		  <a class="menu-item" href="#"><span class="counter">3</span>Phalcon</a>
+		  <a class="menu-item" href="#"><span class="counter">3</span>RESTful</a>
+		  <a class="menu-item" href="#"><span class="counter">3</span>读书笔记</a>
+		</nav>
+		<a class="rss" href="###">
+		    <span class="octicon octicon-rss"></span>
+		    Subscribe
+		</a>
+	</div>
+</div> 
