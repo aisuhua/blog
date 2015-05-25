@@ -5,7 +5,7 @@ description: Hi, This is Suhua Blog.
   
 source: docs
 url: http://aisuhua.github.io/
-baseurl: "/blog" # the subpath of your site, e.g. /blog/
+baseurl: "/blog" 
 
 zhihu_username: aisuhua
 segmentfault_username: aisuhua
