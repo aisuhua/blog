@@ -71,10 +71,9 @@ module.exports = function(grunt) {
 	});
 
 	// Load dependencies
+	grunt.loadNpmTasks('grunt-jekyll');
 	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-build-control');
-	grunt.loadNpmTasks('grunt-jekyll');
-	grunt.loadNpmTasks('grunt-parker');
 	grunt.loadNpmTasks('grunt-qiniu-deploy');
 
 	// Generate and format the CSS
