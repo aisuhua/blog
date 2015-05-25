@@ -5,8 +5,8 @@
     <description>Hi, This is Suhua Blog.</description>
     <link>http://aisuhua.github.io//blog/</link>
     <atom:link href="http://aisuhua.github.io//blog/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 24 May 2015 21:59:19 +0800</pubDate>
-    <lastBuildDate>Sun, 24 May 2015 21:59:19 +0800</lastBuildDate>
+    <pubDate>Mon, 25 May 2015 10:31:38 +0800</pubDate>
+    <lastBuildDate>Mon, 25 May 2015 10:31:38 +0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -15,7 +15,7 @@
 
 &lt;p&gt;本博客主要记载一些技术性的文章，还有一些生活的体验。有人说“做技术，要有所为，有所不为”，那我就只能尽力而为吧。&lt;/p&gt;
 
-&lt;p&gt;感谢你能够在这里停留，我会因此而觉得很幸运 ^_^  谢谢你。&lt;/p&gt;
+&lt;p&gt;感谢你能够在这里停留，我会觉得很幸运 ^_^  谢谢你。&lt;/p&gt;
 </description>
         <pubDate>Mon, 25 May 2015 05:15:49 +0800</pubDate>
         <link>http://aisuhua.github.io//blog/php/2015/05/25/hello-world.html</link>
