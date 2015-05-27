@@ -28,11 +28,9 @@
 									<span class="octicon octicon-calendar"></span>
 									{{ page.date | date: '%Y-%m-%d' }}
 								</li>
-								<!--
 								<li class="meta-item">
-									<img alt="@aisuhua" src="https://avatars0.githubusercontent.com/u/11390617?v=3&s=460"  class="author-avatar" height="18" width="18"> <a href="###">aisuhua</a>
+									<img alt="@aisuhua" src="{{ site.github_avatar }}"  class="author-avatar" height="18" width="18"> <a href="https://github.com/{{ site.github_username }}">aisuhua</a>
 								</li>
-								-->
 								<li class="meta-item">
 									<span class="octicon octicon-file-directory"></span>
 									<a href="{{ site.baseurl }}/categories/{{ page.category }}">{{ page.category }}</a>
@@ -41,6 +39,22 @@
 							<div class="blog-post-body markdown-body">
 								{{ content }}
 					        </div>
+							
+							
+							{% if page.copyright %}
+							<!-- blog-copyright -->
+							<div class="blog-copyright">
+							    <h2 class="blog-copyright-header with-cc">
+							    	文档信息
+							    </h2>
+							    <p class="blog-copyright-description">
+							    	版权声明： 署名-非商业性使用-禁止演绎 4.0 国际 (<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" target="_blank">CC BY-NC-ND 4.0</a>) </a> <br />
+									发表日期： {{ page.date | date: '%Y年%m月%d日' }}<br />
+									更多内容： <a href="{{ site.baseurl }}/">The Suhua Blog</a> » <a href="{{ site.baseurl }}/categories/{{ page.category }}">{{ page.category }}</a><br />
+									Feed订阅：<a class="rss" href="{{ site.baseurl }}/feed.xml"><span class="octicon octicon-rss"></span> Subscribe</a><br />
+								</p>
+							</div>
+							{% endif %}
 							
 							<!-- blog-feedback -->
 							{% include feedback.html %}

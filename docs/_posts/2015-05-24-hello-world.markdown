@@ -3,6 +3,7 @@ layout: post
 title:  "世界，你好"
 date:   2015-05-24 21:15:49
 category: php
+copyright: false
 ---
 
 想见证从菜鸟到大神的进化过程吗？在这里你将一目了然。（疯子一个）

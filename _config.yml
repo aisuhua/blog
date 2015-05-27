@@ -12,6 +12,8 @@ segmentfault_username: aisuhua
 github_username:  aisuhua
 cnblogs_username:  isuhua
 
+github_avatar:  https://avatars0.githubusercontent.com/u/11390617?v=3&s=460
+
 # Build settings
 markdown: kramdown
 
@@ -30,7 +32,7 @@ excerpt_separator: "\n\n\n"
 
 version: 0.0.1
 
-use_local_static: false # set the value 'true' if you want to use local static files such as js/css.
+use_local_static: true # set the value 'true' if you want to use local static files such as js/css.
 
 assects_url: http://7xj8ix.com1.z0.glb.clouddn.com/assets # the url of static files in qiniu
 

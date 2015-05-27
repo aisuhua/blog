@@ -182,6 +182,35 @@
 	border: 1px solid #d8d8d8;
 }
 
+.blog-copyright {
+  margin: 50px 0;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-bottom-color: #ccc;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 #fff, 0 1px 5px #f1f1f1;
+  margin-bottom:0px;
+  margin-top:30px;
+}
+.blog-copyright-header {
+  margin: 0;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 1px 0 #fff;
+  font-size: 14px;
+  font-weight:normal;
+  color:#666;
+}
+.blog-copyright-header.with-cc {
+  background: url(/blog/img/cc-logo.png) 648px 6px no-repeat;
+  background-size: 22px auto;
+}
+.blog-copyright-description {
+  margin: 0;
+  padding: 10px;
+  color: #999;
+}
+
 .markdown-body {
 	font-size:16px;
 	line-height:1.75;
