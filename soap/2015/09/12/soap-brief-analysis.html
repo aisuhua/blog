@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SOAP 介绍</title>
+	<meta name="description" content="简介SOAP（Simple Object Access Protoco）简单对象访问协议是在分散或分布式的环境中交换信息的简单的协议，是一个基于 XML 的协议。此协议规范由 IBM、Microsoft、UserLand 和 DevelopMentor 在1998年共同提出，并得到 IBM，莲花（Lotus），康...">
+	
+	<link rel="icon" type="image/png" href="/blog/favicon.png" sizes="32x32">
+	
+	
+	<link rel="stylesheet" href="/blog/main.css">
+	
+</head>
+
+  <body>
+
+	<div class="pagehead">
+		<div class="container">
+			<h1>
+				<a href="/blog/" id="blog-home"><span class="octicon octicon-home" title="返回首页"></span></a>
+				<a href="/blog/soap/2015/09/12/soap-brief-analysis.html" class="blog-title">SOAP 介绍</a>
+			</h1>
+		</div>
+	</div>
+
+    <div class="page-content">
+      <div class="wrapper">
+        <!-- container-->
+		<div class="container">
+			<!-- columns-->
+			<div class="blog-layout columns">
+				<!-- three-fourths column -->
+				<div class="three-fourths column">
+					<div class="blog-content">
+							<ul class="blog-post-meta">
+								<li class="meta-item">
+									<span class="octicon octicon-calendar"></span>
+									2015-09-12
+								</li>
+								<li class="meta-item">
+									<img alt="@aisuhua" src="http://sfault-avatar.b0.upaiyun.com/890/673/890673660-55531aaec3a2a_huge256"  class="author-avatar" height="18" width="18"> <a href="https://github.com/aisuhua">aisuhua</a>
+								</li>
+								<li class="meta-item">
+									<span class="octicon octicon-file-directory"></span>
+									<a href="/blog/category/soap">soap</a>
+								</li>
+							</ul>
+							<div class="blog-post-body markdown-body">
+								<h2 id="section">简介</h2>
+
+<p>SOAP（Simple Object Access Protoco）简单对象访问协议是在分散或分布式的环境中交换信息的简单的协议，是一个基于 XML 的协议。此协议规范由 IBM、Microsoft、UserLand 和 DevelopMentor 在1998年共同提出，并得到 IBM，莲花（Lotus），康柏（Compaq）等公司的支持，于2000年提交给万维网联盟（World Wide Web Consortium；W3C）。现在，SOAP 协议规范由万维网联盟的 XML工作组维护。SOAP 1.2 版在2003年6月24日成为 W3C 的推荐版本。</p>
+
+<p>SOAP 协议包括以下四个部分的内容：</p>
+
+<ol>
+  <li>SOAP 封装（envelop），封装定义了一个描述消息中的内容是什么，是谁发送的，谁应当接受并处理它以及如何处理它们的框架；</li>
+  <li>SOAP 编码规则（encoding rules），它定义了不同应用程序间交换信息时，需要使用到的数据类型；</li>
+  <li>SOAP RPC 表示（RPC representation），它定义了一个表示远程过程调用和应答的协定；</li>
+  <li>SOAP 绑定（binding），它定义 SOAP 使用哪种底层协议交换信息的协定。使用 HTTP/TCP/UDP 协议都可以；</li>
+</ol>
+
+<h3 id="section-1">四个部分之间的关系</h3>
+
+<p>SOAP 消息基本上是从发送端到接收端的单向传输，但它们常常结合起来执行类似于请求 / 应答的模式。所有的 SOAP 消息都使用 XML 编码。一条 SOAP 消息就是一个包含有一个必需的 SOAP 的封装包，一个可选的 SOAP 标头（Header）和一个必需的 SOAP 体块（Body）的 XML 文档。</p>
+
+<p>把 SOAP 绑定到 HTTP 提供了同时利用 SOAP 的样式和分散的灵活性的特点以及 HTTP 的丰富的特征库的优点。在HTTP上传送 SOAP 并不是说 SOAP 会覆盖现有的 HTTP 语义，而是 HTTP 上的 SOAP 语义会自然的映射到 HTTP 语义。在使用 HTTP 作为协议绑定的场合中， RPC 请求映射到 HTTP 请求上，而 RPC 应答映射到 HTTP 应答。然而，在 RPC 上使用 SOAP 并不仅限于 HTTP 协议绑定。SOAP也可以绑定到TCP和UDP协议上。</p>
+
+<p>虽然这四个部分都作为 SOAP 的一部分，作为一个整体定义的，但他们在功能上是相交的、彼此独立的。特别的，信封（envelop）和编码规则（encoding rules）是被定义在不同的 XML 命名空间中，这样使得定义更加简单。</p>
+
+<h2 id="section-2">语法规则</h2>
+
+<ol>
+  <li>SOAP 消息必须用 XML 来编码；</li>
+  <li>SOAP 消息必须使用 SOAP Envelope 命名空间；</li>
+  <li>SOAP 消息必须使用 SOAP Encoding 命名空间；</li>
+  <li>SOAP 消息不能包含 DTD 引用；</li>
+  <li>SOAP 消息不能包含 XML 处理指令；</li>
+</ol>
+
+<h2 id="soap-">SOAP 消息格式</h2>
+
+<p>SOAP 消息的格式比较简单，如下图：</p>
+
+<p><a href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/SOAP.svg/225px-SOAP.svg.png"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/SOAP.svg/225px-SOAP.svg.png" alt="SOAP 消息格式" /></a></p>
+
+<p>下面是一条 SOAP 消息的基本格式：</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;soap:Envelope
+    xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+    soap:encodingStyle="http://www.w3.org/2003/05/soap-encoding"&gt;
+    &lt;soap:Header&gt;
+        &lt;!-- 消息头，可选 --&gt;
+    &lt;/soap:Header&gt;
+    &lt;soap:Body&gt;
+        &lt;!-- 消息内容，必需 --&gt;
+
+        &lt;soap:Fault&gt;
+            &lt;!-- 错误信息，可选 --&gt;
+        &lt;/soap:Fault&gt;
+    &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p>一条 SOAP 消息就是一个普通的 XML 文档，包含如下元素：</p>
+
+<ol>
+  <li>必需的 Envelope 元素，据此可把该 XML 文档标识为一条 SOAP 消息；</li>
+  <li>可选的 Header 元素，包含头部信息，一般用于身份验证；</li>
+  <li>必需的 Body 元素，包含所有的调用和响应信息；</li>
+  <li>可选的 Fault 元素，提供有关在处理此消息时，所发生的错误的描述信息；</li>
+</ol>
+
+<h2 id="section-3">语法规则详解</h2>
+
+<h3 id="soap-envelope">SOAP Envelope</h3>
+
+<p><code>Envelope</code> 是 SOAP 消息结构的主要容器，也是 SOAP 消息的根元素，它必须出现在每个 SOAP 消息中，用于把此 XML 文档标示为一条 SOAP 消息。</p>
+
+<p>在 SOAP 中，使用命名空间将 SOAP 消息元素与应用程序自定义的元素区分开来，将 SOAP 消息元素的作用域限制在一个特定的区域。</p>
+
+<pre><code>&lt;soap:Envelope
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    soap:encodingStyle="http://www.w3.org/2003/05/soap-encoding"&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p>SOAP 的 <code>encodingStyle</code> 属性用于定义在文档中使用的数据类型。此属性可出现在任何 SOAP 元素中，并会被应用到元素的内容及元素的所有子元素上。</p>
+
+<h3 id="soap-header">SOAP Header</h3>
+
+<p>这个是可选的，如果需要添加 <code>Header</code> 元素，那么它必须是 <code>Envelope</code> 的第一个子元素。<code>Header</code> 还可以包含0个或多个可选的子元素，这些子元素称为 Header 项，所有的 Header 项一般来说是属于某个特定与接口相关的命名空间。</p>
+
+<pre><code>&lt;soap:Envelope
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    soap:encodingStyle="http://www.w3.org/2003/05/soap-encoding"&gt;
+    &lt;soap:Header&gt;
+        &lt;AuthenHeader xmlns="http://www.example.com"&gt;
+            &lt;sAuthenticate&gt;string&lt;/sAuthenticate&gt;
+        &lt;/AuthenHeader&gt;
+    &lt;/soap:Header&gt;
+    &lt;soap:Body&gt;
+    &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p><code>Header</code> 元素用于与消息一起传输一些附加的消息，如身份验证信息等。</p>
+
+<h2 id="soap-body">SOAP Body</h2>
+
+<p>SOAP 消息的 <code>Body</code> 元素可以包含以下任何元素：</p>
+
+<ol>
+  <li>远程过程调用（RPC）的方法及其参数；</li>
+  <li>目标应用程序（消息接收者即接口调用者）所需要的数据；</li>
+  <li>报告故障和状态消息的 SOAP Fault；</li>
+</ol>
+
+<p>所有 <code>Body</code> 元素的直接子元素都称为 Body 项，所有 Body 项一般是属于某个特点的命名空间的。</p>
+
+<p>SOAP 请求消息例子：</p>
+
+<pre><code>&lt;soap:Envelope
+    xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+    soap:encodingStyle="http://www.w3.org/2003/05/soap-encoding"&gt;
+    &lt;soap:Body&gt;
+        &lt;getMobileCodeInfo xmlns="http://www.example.com"&gt;
+            &lt;mobileCode&gt;string&lt;/mobileCode&gt;
+            &lt;userID&gt;string&lt;/userID&gt;
+        &lt;/getMobileCodeInfo&gt;
+    &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p>SOAP 响应消息例子：</p>
+
+<pre><code>&lt;soap:Envelope
+    xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+    soap:encodingStyle="http://www.w3.org/2003/05/soap-encoding"&gt;
+    &lt;soap:Body&gt;
+        &lt;getMobileCodeInfoResponse xmlns="http://www.example.com"&gt;
+            &lt;getMobileCodeInfoResult&gt;string&lt;/getMobileCodeInfoResult&gt;
+        &lt;/getMobileCodeInfoResponse&gt;
+    &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p>注：以上例子表示通过手机号获取手机号归属地等信息。第一个例子是请求消息，第二个例子是它的响应消息。</p>
+
+<h2 id="soap-fault">SOAP Fault</h2>
+
+<p><code>Fault</code> 元素用于在 SOAP 消息中传输错误及状态信息。如果 SOAP 消息中包括 <code>Fault</code> 元素，它必须作为一个 <code>Body</code> 的子元素出现，而且至多出现一次。<code>Fault</code> 元素本身也包含有描述错误详细信息的子元素。它包含以下子元素：<code>faultcode</code>，<code>faultstring</code>，<code>faultactor</code>，<code>detail</code>。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>子元素</th>
+      <th>描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>faultcode</code></td>
+      <td>供识别故障的代码</td>
+    </tr>
+    <tr>
+      <td><code>faultstring</code></td>
+      <td>可供人阅读的有关故障的说明</td>
+    </tr>
+    <tr>
+      <td><code>faultactor</code></td>
+      <td>有关是谁引发故障的信息</td>
+    </tr>
+    <tr>
+      <td><code>detail</code></td>
+      <td>有关涉及 <code>Body</code> 元素的应用程序专用错误信息</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>其中 <code>faultcode</code> 是每一条错误消息都会提供的元素，它的值一般是以下错误代码之一：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>错误代码</th>
+      <th>描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>VersionMismatch</td>
+      <td>无效的 SOAP Envelope 命名空间</td>
+    </tr>
+    <tr>
+      <td>MustUnderstand</td>
+      <td>无法理解 <code>Header</code> 中拥有属性 <code>mustUnderstand = 1</code> 的子元素</td>
+    </tr>
+    <tr>
+      <td>Client</td>
+      <td>消息结构错误，或包含了不正确的信息</td>
+    </tr>
+    <tr>
+      <td>Server</td>
+      <td>服务器出现错误</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>注：以上关于 SOAP Fault 的描述不完全适用于 SOAP 1.2 版本。因为 SOAP 1.2 版本在返回错误信息时，<code>Fault</code> 的子元素及其内容已经有所不同。具体看下面的例子：</p>
+
+<p>SOAP v1.1 错误消息例子：</p>
+
+<pre><code>&lt;soap:Envelope
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" 
+    soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding"&gt;
+    &lt;soap:Body&gt;
+        &lt;soap:Fault&gt;
+            &lt;faultcode&gt;soap:Client&lt;/faultcode&gt;
+            &lt;faultstring&gt;Input string was not in a correct format.&lt;/faultstring&gt;
+        &lt;detail/&gt;
+    &lt;/soap:Fault&gt;
+&lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p>SOAP v1.2 错误消息例子：</p>
+
+<pre><code>&lt;soap:Envelope
+    xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+    soap:encodingStyle="http://www.w3.org/2003/05/soap-encoding"&gt;
+    &lt;soap:Body&gt;
+        &lt;soap:Fault&gt;
+            &lt;soap:Code&gt;
+                &lt;soap:Value&gt;soap:Sender&lt;/soap:Value&gt;
+            &lt;/soap:Code&gt;
+            &lt;soap:Reason&gt;
+                &lt;soap:Text xml:lang="en"&gt;Input string was not in a correct format.&lt;/soap:Text&gt;
+            &lt;/soap:Reason&gt;
+            &lt;soap:Detail/&gt;
+        &lt;/soap:Fault&gt;
+    &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p>从以上返回结果来看，其实所返回的错误信息内容并没有太多改变，只是 XML 的元素发生了一些变化，具体还需要读者自己理解。</p>
+
+<h2 id="section-4">总结</h2>
+
+<p>本文章节有点乱，还算是把 SOAP 的基本知识点都过了一遍。接下来，我将会结合一些实例，进一步说明 SOAP 的特点以及如何使用 SOAP Web 服务。</p>
+
+<h2 id="section-5">参考文献</h2>
+
+<ol>
+  <li><a href="http://www.ibm.com/developerworks/cn/xml/x-sisoap/">浅谈 SOAP</a></li>
+  <li><a href="http://blog.csdn.net/wooshn/article/details/8145763">SOAP 详解</a></li>
+  <li><a href="http://baike.baidu.com/link?url=dWy5VmzeqzGhJxcTNO42FqJ1nLH3cwKfOdaJ9YfR5T3eFSPRQkP-xJQQNABi_hvBN_qNsWxj1P1U6rwvvafUOfgoZNZlGssdq48XYhjK3M91lFj1T0SucuAtavpr8ZEirrVFLzcALpol1SMG0fePmK">简单对象访问协议（百度百科）</a></li>
+  <li><a href="https://zh.wikipedia.org/wiki/SOAP">简单对象访问协议（维基百科）</a></li>
+  <li><a href="http://www.w3school.com.cn/xml/xml_namespaces.asp">XML 命名空间（XML Namespaces）</a></li>
+  <li><a href="http://www.cnblogs.com/JeffreySun/archive/2009/12/14/1623766.html">SOAP 和 WSDL 的一些必要知识</a></li>
+  <li><a href="http://blog.sina.com.cn/s/blog_3d7bed65010004vo.html">WebService 笔记=&gt;SOAP 消息结构 </a></li>
+</ol>
+
+<h2 id="section-6">其他</h2>
+
+<ol>
+  <li>查询手机归属地信息服务：<a href="http://webservice.webxml.com.cn/WebServices/MobileCodeWS.asmx">http://webXml.com.cn</a></li>
+  <li>SOAP 服务调试工具：<a href="http://www.soapui.org/">SoapUI 5.2</a></li>
+  <li>XML 在线格式化工具：<a href="http://www.webtoolkitonline.com/xml-formatter.html">Web Toolkit Online</a></li>
+</ol>
+
+					        </div>
+							
+							
+							
+							<!-- blog-copyright -->
+							<div class="blog-copyright">
+							    <h2 class="blog-copyright-header with-cc">
+							    	文档信息
+							    </h2>
+							    <p class="blog-copyright-description">
+							    	版权声明： 署名-非商业性使用-禁止演绎 4.0 国际 (<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" target="_blank">CC BY-NC-ND 4.0</a>) </a> <br />
+									发表日期： 2015年09月12日<br />
+									更多内容： <a href="/blog/">The Suhua Blog</a> » <a href="/blog/category/soap">soap</a><br />
+									Feed订阅：<a class="rss" href="/blog/feed.xml"><span class="octicon octicon-rss"></span> Subscribe</a><br />
+								</p>
+							</div>
+							
+							
+							<!-- blog-feedback -->
+							<div class="blog-feedback"> 
+	<div style="height:30px;"></div>
+	 <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="SOAP 介绍" data-title="SOAP 介绍" data-url="/blog//soap/2015/09/12/soap-brief-analysis.html"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"suhualbog"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+		</script>
+	<!-- 多说公共JS代码 end -->
+	
+</div>
+							
+					</div>
+				</div> 
+				
+				<!-- one-fourth column -->
+				<div class="one-fourth column">
+	<div class="blog-aside">
+		<nav class="menu">
+		  
+		  	
+			 	<a class="menu-item" href="/blog/category/php"><span class="counter">1</span>php</a>
+			
+		  
+		  	
+				<a class="menu-item selected" href="/blog/category/soap"><span class="counter">1</span>soap</a>
+			
+		  		  
+		</nav>
+		<a class="rss" href="/blog/feed.xml">
+		    <span class="octicon octicon-rss"></span>
+		    Subscribe
+		</a>
+	</div>
+</div> 
+				
+			</div> 
+		</div> 
+      </div>
+    </div>
+
+    <div class="footer">
+	<div class="container">
+	  <div class="site-footer">
+	    <ul class="site-footer-links">
+	      <li><span class="tooltipped tooltipped-n" aria-label="一个记录着我成长历程的博客。">The Suhua Blog</span></li>
+	        <li><a href="/blog/">博客</a></li>
+	        <li><a href="javascript:void(0);" class="tooltipped tooltipped-ne" aria-label="别急，我还在整理呢~">智库</a></li>
+	        <li><a href="https://github.com/aisuhua">Github</a></li>
+			<li><a href="http://www.cnblogs.com/isuhua">博客园</a></li>
+			<li><a href="http://segmentfault.com/u/aisuhua">Segmentfault</a></li>
+			<li><a href="http://www.zhihu.com/people/aisuhua">知乎</a></li>
+	        <li><a href="/blog/about/">关于</a></li>
+	    </ul>
+	  </div>
+	</div>
+</div>
+
+
+<script src="/blog/js/anchor.min.js"></script>
+<script src="/blog/js/highlight.min.js"></script>
+
+
+<script>
+anchors.add('.markdown-body h2, .markdown-body h3, .markdown-body h4');
+hljs.initHighlightingOnLoad();
+</script>
+
+
+  </body>
+
+</html>
+
