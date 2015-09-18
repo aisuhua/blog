@@ -12,7 +12,8 @@ segmentfault_username: aisuhua
 github_username:  aisuhua
 cnblogs_username:  isuhua
 
-github_avatar:  https://avatars0.githubusercontent.com/u/11390617?v=3&s=460
+# github_avatar:  https://avatars0.githubusercontent.com/u/11390617?v=3&s=460
+github_avatar: http://sfault-avatar.b0.upaiyun.com/890/673/890673660-55531aaec3a2a_huge256
 
 # Build settings
 markdown: kramdown
@@ -36,3 +37,5 @@ use_local_static: true # set the value 'true' if you want to use local static fi
 
 assects_url: http://7xj8ix.com1.z0.glb.clouddn.com/assets # the url of static files in qiniu
 
+category_title_prefix: "The Suhua Blog: "
+category_dir: category
