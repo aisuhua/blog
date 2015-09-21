@@ -40,6 +40,114 @@
 					
 					<div class="blog-post">
 						<h2 class="blog-post-title">
+							<a href="/blog/soap/2015/09/16/soap-web-service.html">SOAP Web 服务介绍</a>
+						</h2>
+						<ul class="blog-post-meta">
+							<li class="meta-item">
+								<span class="octicon octicon-calendar"></span>
+								2015-09-16
+							</li>
+							<!--
+							<li class="meta-item">
+								<img alt="@aisuhua" src="https://avatars0.githubusercontent.com/u/11390617?v=3&s=460"  class="author-avatar" height="18" width="18"> 
+								<a href="###">aisuhua</a>
+							</li>
+							-->
+							<li class="meta-item">
+								<span class="octicon octicon-file-directory"></span>
+								<a href="/blog/category/soap">soap</a>
+							</li>
+						</ul>
+						<div class="blog-post-body markdown-body">
+							<p>已经跨入 2015 年，当今最为常见的两种 Web 服务类型分别是： REST 和 SOAP 。不过，从趋势来看，越来越多人已经开始使用 REST 风格的 Web 服务。而 SOAP 大多也开始或已经转型 REST，应该说 REST 会慢慢成为主流。这篇文章不会对 REST 介绍太多，主要的重点还是介绍一下 SOAP 风格的 Web 服务。</p>
+
+<h2 id="web-service-">Web Service 三要素</h2>
+
+<p>实际上，现在说 “Web Service 三要素”应该是不算很准确了，不过这个概念一直这样沿用，而且本文我们为了更能清楚阐释 SOAP Web 服务，那么就这样定义。</p>
+
+<p>Web Service 的三个要素分别是：</p>
+
+<ol>
+  <li>SOAP（Simple Object Access Protoco） 简单对象访问协议；</li>
+  <li>WSDL（Web Services Description Language） 网络服务描述语言；</li>
+  <li>UDDI（Universal Description Discovery and Integration）一个用来发布和搜索 WEB 服务的协议（非必须）；</li>
+</ol>
+
+<p>SOAP 用来描述传递信息的格式规范， WSDL 用来描述如何访问具体的接口（比如它会告诉你该服务有哪些接口可以使用，参数是什么等等）， UDDI 用来管理、分发和查询 Web Service。下面我们将逐一详细介绍这三个要素，并通过结合实例来进行阐释。</p>
+
+<p>为了把这三个要素说得更清楚，我们将会使用一个免费的 SOAP Web 服务作为例子进行阐述。该服务只提供一个接口即：根据 QQ 号，获取 QQ 在线状态。<a href="http://www.webxml.com.cn/webservices/qqOnlineWebService.asmx">查看该服务</a></p>
+
+<h2 id="soap">SOAP</h2>
+
+<p>它是一个协议，可以简单的理解为：它定义了一个基于 XML 的可扩展消息信封格式。因为客户端与服务器进行交互，由于大家的平台和应用程序都不一样，所以大家约定都采用 SOAP 这个协议来规范交互时的需要传递的消息。</p>
+
+<p>请求接口时，发送的消息例子：</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+    &lt;soap:Body&gt;
+        &lt;qqCheckOnline xmlns="http://WebXml.com.cn/"&gt;
+            &lt;qqCode&gt;8698053&lt;/qqCode&gt;
+        &lt;/qqCheckOnline&gt;
+    &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p>接口响应时，返回的消息例子：</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+    &lt;soap:Body&gt;
+        &lt;qqCheckOnlineResponse xmlns="http://WebXml.com.cn/"&gt;
+            &lt;qqCheckOnlineResult&gt;Y&lt;/qqCheckOnlineResult&gt;
+        &lt;/qqCheckOnlineResponse&gt;
+    &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p>注：以上例子是使用 SOAP 1.1 发送的消息，SOAP 1.2 发送的消息格式其实大同小异，具体自己<a href="http://www.webxml.com.cn/webservices/qqOnlineWebService.asmx?op=qqCheckOnline">查看接口文档</a>。</p>
+
+<p>下面对它结构进行详细说明。</p>
+
+<h3 id="xml-">XML 声明</h3>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</code></pre>
+
+<p>该行是 XML 声明。它定义 XML 的版本 (1.0) 和所使用的编码（utf-8）。</p>
+
+<h3 id="envelope-">Envelope 元素</h3>
+
+<pre><code>&lt;soap:Envelope
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+	....
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p><code>Envelope</code> 元素是 SOAP 消息的固定根元素，SOAP 协议规定的，不能变，其中 <code>xmlns</code> 是 XML Namespace 的缩写，表示 XML 命名空间。<code>xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"</code> 是 <code>Envelope</code>的一个属性，它表示定义个以 <code>soap</code> 为前缀的命名空间 <code>http://schemas.xmlsoap.org/soap/envelope/</code>，即命名空间的名字是：<code>http://schemas.xmlsoap.org/soap/envelope/</code>，而它的前缀是 <code>soap</code>，这样子就把 <code>soap</code> 前缀与该命名空间进行了绑定。即任何用 <code>soap</code> 为前缀的元素都属于该命名空间的，包括根元素 <code>Envelope</code> 。举个例子：</p>
+
+<pre><code>&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+    &lt;soap:Body&gt;
+        &lt;qqCheckOnline xmlns="http://WebXml.com.cn/"&gt;
+            &lt;qqCode&gt;8698053&lt;/qqCode&gt;
+        &lt;/qqCheckOnline&gt;
+    &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p>其中，<code>Envelope</code> 和 <code>Body</code> 元素就是以 <code>soap</code> 为前缀的，那么 <code>Envelope</code> 和 <code>Body</code> 元素都是属于 <code>http://schemas.xmlsoap.org/soap/envelope/</code> 这个命名空间的。</p>
+
+<p>同时，SOAP 协议中规定，SOAP 消息必须使用 SOAP Envelope 命名空间，所以 <code>http://schemas.xmlsoap.org/soap/envelope/</code> 这个命名空间是固定的不能变（注意：这里只针对 SOAP 1.1 版本，SOAP 1.2 会有所不同）。所有 SOAP 消息元素，比如：<code>Envelope</code>、<code>Header</code>、<code>Body</code>、<code>Fault</code> 也都必须属于该命名空间。</p>
+
+
+							<a href="/blog/soap/2015/09/16/soap-web-service.html">继续阅读...</a>
+				        </div>
+					</div>
+					
+					<div class="blog-post">
+						<h2 class="blog-post-title">
 							<a href="/blog/soap/2015/09/12/soap-brief-analysis.html">SOAP 介绍</a>
 						</h2>
 						<ul class="blog-post-meta">
@@ -145,7 +253,7 @@
 			
 		  
 		  	
-				<a class="menu-item selected" href="/blog/category/soap"><span class="counter">1</span>soap</a>
+				<a class="menu-item selected" href="/blog/category/soap"><span class="counter">2</span>soap</a>
 			
 		  		  
 		</nav>

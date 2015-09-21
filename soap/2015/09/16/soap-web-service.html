@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SOAP Web 服务介绍</title>
+	<meta name="description" content="已经跨入 2015 年，当今最为常见的两种 Web 服务类型分别是： REST 和 SOAP 。不过，从趋势来看，越来越多人已经开始使用 REST 风格的 Web 服务。而 SOAP 大多也开始或已经转型 REST，应该说 REST 会慢慢成为主流。这篇文章不会对 REST 介绍太多，主要的重点还是介绍一下 SO...">
+	
+	<link rel="icon" type="image/png" href="/blog/favicon.png" sizes="32x32">
+	
+	
+	<link rel="stylesheet" href="/blog/main.css">
+	
+</head>
+
+  <body>
+
+	<div class="pagehead">
+		<div class="container">
+			<h1>
+				<a href="/blog/" id="blog-home"><span class="octicon octicon-home" title="返回首页"></span></a>
+				<a href="/blog/soap/2015/09/16/soap-web-service.html" class="blog-title">SOAP Web 服务介绍</a>
+			</h1>
+		</div>
+	</div>
+
+    <div class="page-content">
+      <div class="wrapper">
+        <!-- container-->
+		<div class="container">
+			<!-- columns-->
+			<div class="blog-layout columns">
+				<!-- three-fourths column -->
+				<div class="three-fourths column">
+					<div class="blog-content">
+							<ul class="blog-post-meta">
+								<li class="meta-item">
+									<span class="octicon octicon-calendar"></span>
+									2015-09-16
+								</li>
+								<li class="meta-item">
+									<img alt="@aisuhua" src="http://sfault-avatar.b0.upaiyun.com/890/673/890673660-55531aaec3a2a_huge256"  class="author-avatar" height="18" width="18"> <a href="https://github.com/aisuhua">aisuhua</a>
+								</li>
+								<li class="meta-item">
+									<span class="octicon octicon-file-directory"></span>
+									<a href="/blog/category/soap">soap</a>
+								</li>
+							</ul>
+							<div class="blog-post-body markdown-body">
+								<p>已经跨入 2015 年，当今最为常见的两种 Web 服务类型分别是： REST 和 SOAP 。不过，从趋势来看，越来越多人已经开始使用 REST 风格的 Web 服务。而 SOAP 大多也开始或已经转型 REST，应该说 REST 会慢慢成为主流。这篇文章不会对 REST 介绍太多，主要的重点还是介绍一下 SOAP 风格的 Web 服务。</p>
+
+<h2 id="web-service-">Web Service 三要素</h2>
+
+<p>实际上，现在说 “Web Service 三要素”应该是不算很准确了，不过这个概念一直这样沿用，而且本文我们为了更能清楚阐释 SOAP Web 服务，那么就这样定义。</p>
+
+<p>Web Service 的三个要素分别是：</p>
+
+<ol>
+  <li>SOAP（Simple Object Access Protoco） 简单对象访问协议；</li>
+  <li>WSDL（Web Services Description Language） 网络服务描述语言；</li>
+  <li>UDDI（Universal Description Discovery and Integration）一个用来发布和搜索 WEB 服务的协议（非必须）；</li>
+</ol>
+
+<p>SOAP 用来描述传递信息的格式规范， WSDL 用来描述如何访问具体的接口（比如它会告诉你该服务有哪些接口可以使用，参数是什么等等）， UDDI 用来管理、分发和查询 Web Service。下面我们将逐一详细介绍这三个要素，并通过结合实例来进行阐释。</p>
+
+<p>为了把这三个要素说得更清楚，我们将会使用一个免费的 SOAP Web 服务作为例子进行阐述。该服务只提供一个接口即：根据 QQ 号，获取 QQ 在线状态。<a href="http://www.webxml.com.cn/webservices/qqOnlineWebService.asmx">查看该服务</a></p>
+
+<h2 id="soap">SOAP</h2>
+
+<p>它是一个协议，可以简单的理解为：它定义了一个基于 XML 的可扩展消息信封格式。因为客户端与服务器进行交互，由于大家的平台和应用程序都不一样，所以大家约定都采用 SOAP 这个协议来规范交互时的需要传递的消息。</p>
+
+<p>请求接口时，发送的消息例子：</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+    &lt;soap:Body&gt;
+        &lt;qqCheckOnline xmlns="http://WebXml.com.cn/"&gt;
+            &lt;qqCode&gt;8698053&lt;/qqCode&gt;
+        &lt;/qqCheckOnline&gt;
+    &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p>接口响应时，返回的消息例子：</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+    &lt;soap:Body&gt;
+        &lt;qqCheckOnlineResponse xmlns="http://WebXml.com.cn/"&gt;
+            &lt;qqCheckOnlineResult&gt;Y&lt;/qqCheckOnlineResult&gt;
+        &lt;/qqCheckOnlineResponse&gt;
+    &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p>注：以上例子是使用 SOAP 1.1 发送的消息，SOAP 1.2 发送的消息格式其实大同小异，具体自己<a href="http://www.webxml.com.cn/webservices/qqOnlineWebService.asmx?op=qqCheckOnline">查看接口文档</a>。</p>
+
+<p>下面对它结构进行详细说明。</p>
+
+<h3 id="xml-">XML 声明</h3>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</code></pre>
+
+<p>该行是 XML 声明。它定义 XML 的版本 (1.0) 和所使用的编码（utf-8）。</p>
+
+<h3 id="envelope-">Envelope 元素</h3>
+
+<pre><code>&lt;soap:Envelope
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+	....
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p><code>Envelope</code> 元素是 SOAP 消息的固定根元素，SOAP 协议规定的，不能变，其中 <code>xmlns</code> 是 XML Namespace 的缩写，表示 XML 命名空间。<code>xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"</code> 是 <code>Envelope</code>的一个属性，它表示定义个以 <code>soap</code> 为前缀的命名空间 <code>http://schemas.xmlsoap.org/soap/envelope/</code>，即命名空间的名字是：<code>http://schemas.xmlsoap.org/soap/envelope/</code>，而它的前缀是 <code>soap</code>，这样子就把 <code>soap</code> 前缀与该命名空间进行了绑定。即任何用 <code>soap</code> 为前缀的元素都属于该命名空间的，包括根元素 <code>Envelope</code> 。举个例子：</p>
+
+<pre><code>&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+    &lt;soap:Body&gt;
+        &lt;qqCheckOnline xmlns="http://WebXml.com.cn/"&gt;
+            &lt;qqCode&gt;8698053&lt;/qqCode&gt;
+        &lt;/qqCheckOnline&gt;
+    &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p>其中，<code>Envelope</code> 和 <code>Body</code> 元素就是以 <code>soap</code> 为前缀的，那么 <code>Envelope</code> 和 <code>Body</code> 元素都是属于 <code>http://schemas.xmlsoap.org/soap/envelope/</code> 这个命名空间的。</p>
+
+<p>同时，SOAP 协议中规定，SOAP 消息必须使用 SOAP Envelope 命名空间，所以 <code>http://schemas.xmlsoap.org/soap/envelope/</code> 这个命名空间是固定的不能变（注意：这里只针对 SOAP 1.1 版本，SOAP 1.2 会有所不同）。所有 SOAP 消息元素，比如：<code>Envelope</code>、<code>Header</code>、<code>Body</code>、<code>Fault</code> 也都必须属于该命名空间。</p>
+
+<h3 id="body-">Body 元素</h3>
+
+<pre><code>&lt;soap:Body&gt;
+    &lt;qqCheckOnline xmlns="http://WebXml.com.cn/"&gt;
+        &lt;qqCode&gt;8698053&lt;/qqCode&gt;
+    &lt;/qqCheckOnline&gt;
+&lt;/soap:Body&gt;
+</code></pre>
+
+<p><code>Body</code> 元素里面，一般都是放一些请求和响应的内容。<code>qqCheckOnline</code> 表示要调用的接口方法，而 <code>qqCode</code> 就是调用该方法时，传入的参数，当然参数可以有多个。</p>
+
+<p>其中，<code>qqCheckOnline</code> 元素上也定义了一个命名空间 <code>http://WebXml.com.cn/</code>。值得注意的是，这里在定义命名空间时，并没有设置命名空间前缀（namespace prefix）。这种设置方式，会把当前元素及其所有子元素，都归属于该命名空间。<a href="http://www.w3school.com.cn/xml/xml_namespaces.asp">了解 XML 命名空间</a>。</p>
+
+<p>我们看到，SOAP 消息元素和应用程序本身的元素是属于不同的命名空间，这样有利于把 SOAP 消息元素与其他元素区分开来，当然也防止了与自定义元素重名的问题。</p>
+
+<h3 id="header-">Header 元素</h3>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+    &lt;soap:Header&gt;
+        &lt;AuthenHeader xmlns="http://www.example.com"&gt;
+            &lt;sAuthenticate&gt;string&lt;/sAuthenticate&gt;
+        &lt;/AuthenHeader&gt;
+    &lt;/soap:Header&gt;
+    &lt;soap:Body&gt;
+	......
+    &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p>有些接口需要提供 <code>Header</code> 元素，它和 <code>Body</code> 信息一起发送，它一般用于身份验证等作用。例子中的 <code>AuthenHeader</code> 和 <code>sAuthenticate</code> 都是接口自定义的参数。</p>
+
+<h3 id="fault-">Fault 元素</h3>
+
+<p>当调用服务发生错误时，错误信息一般会被放置在 <code>Fault</code> 元素内。例如：</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+    &lt;soap:Body&gt;
+        &lt;soap:Fault&gt;
+            &lt;faultcode&gt;soap:Client&lt;/faultcode&gt;
+            &lt;faultstring&gt;Input string was not in a correct format.&lt;/faultstring&gt;
+            &lt;detail/&gt;
+        &lt;/soap:Fault&gt;
+    &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p>Fault 元素内还有 <code>faultcode</code>、<code>faultstring</code>、<code>detail</code>，用于描述错误信息用的。在上一篇文章：《SOAP 介绍》中已经对该知识点进行了比较详细的说明，有兴趣可以看看。</p>
+
+<h2 id="wsdl">WSDL</h2>
+
+<p>一个 XML 格式的文档。它用于描述该服务有哪些可用方法、参数的数据类型、命名空间等等信息。它的目的是让你知道该如何使用该服务，包括调用的各种细节信息。WSDL 文档通常用来辅助生成服务器和客户端代码及配置信息。</p>
+
+<h3 id="section">契约先行与代码先行模式</h3>
+
+<p>在开发 Web Service 过程中有两种实现模式：契约先行（Contract first）模式和代码先行（Code first）模式。</p>
+
+<p><strong>契约先行模式</strong>：首要工作是定义针对这个 Web 服务的接口的 WSDL(Web Services Description Language，Web 服务描述语言 ) 文件。WSDL 文件中描述了 Web 服务的位置，可提供的操作集，以及其他一些属性。WSDL 文件也就是 Web 服务的 “契约”。“契约” 订立之后，再据此进行服务器端和客户端的应用程序开发。</p>
+
+<p><strong>代码先行模式</strong>：与契约先行模式不同，代码先行模式中，第一步工作是实现 Web 服务端，然后根据服务端的实现，用某种方法（自动生成或手工编写）生成 WSDL 文件。</p>
+
+<p>实际上，一个 WSDL 文件也挺复杂的，一般自己也不会去直接看这个文件，而是需要用到某个方法时，直接看该方法的调用说明就好。比如：<a href="http://www.webxml.com.cn/webservices/qqOnlineWebService.asmx?op=qqCheckOnline">获得腾讯QQ在线状态</a></p>
+
+<h2 id="uddi">UDDI</h2>
+
+<p>UDDI 是一个专门用来管理 Web 服务的地方。Web Service 服务提供商可以通过两种方式来暴露它的 WSDL 文件地址：</p>
+
+<ol>
+  <li>注册到 UDDI 服务器，以便被人查找；</li>
+  <li>直接告诉给客户端调用者；</li>
+</ol>
+
+<p>是否需要注册到 UDDI 实际上是可选的，一般公司内部使用的服务，也不会注册到 UDDI。只有那些希望所有人都知道该服务的地址，才会注册到 UDDI。</p>
+
+<h2 id="section-1">最后</h2>
+
+<p>这篇文章写得有点乱了，主要还是自己对 SOAP 的了解还不够，最起码我并没有真正开发过 SOAP 服务。不过没关系吧，慢慢来，文章可以随着知识的增长慢慢润色。上文其实有一些问题没有说清楚的，比如说：SOAP 服务的适合用在哪里，不适合用在哪里等等。如果你有兴趣，可以看看文章最后的几篇参考文献。</p>
+
+<h2 id="section-2">参考文献</h2>
+
+<ol>
+  <li><a href="http://baike.baidu.com/link?url=dWy5VmzeqzGhJxcTNO42FqJ1nLH3cwKfOdaJ9YfR5T3eFSPRQkP-xJQQNABi_hvBN_qNsWxj1P1U6rwvvafUOfgoZNZlGssdq48XYhjK3M91lFj1T0SucuAtavpr8ZEirrVFLzcALpol1SMG0fePmK">简单对象访问协议（百度百科）</a></li>
+  <li><a href="https://zh.wikipedia.org/wiki/Web%E6%9C%8D%E5%8A%A1">Web服务</a></li>
+  <li><a href="http://www.yeeyan.org/articles/view/jimmylee/5424">PHP SOAP 扩展</a></li>
+  <li><a href="http://blog.csdn.net/wooshn/article/details/8069087">Web Service 到底是什么？</a></li>
+</ol>
+
+<h2 id="section-3">其他</h2>
+
+<ol>
+  <li>获得腾讯QQ在线状态服务：<a href="http://www.webxml.com.cn/webservices/qqOnlineWebService.asmx">qqCheckOnline</a></li>
+  <li>SOAP 服务调试工具：<a href="http://www.soapui.org/">SoapUI 5.2</a></li>
+  <li>XML 在线格式化工具：<a href="http://www.webtoolkitonline.com/xml-formatter.html">Web Toolkit Online</a></li>
+</ol>
+
+
+					        </div>
+							
+							
+							
+							
+							<!-- blog-feedback -->
+							<div class="blog-feedback"> 
+	<div style="height:30px;"></div>
+	 <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="SOAP Web 服务介绍" data-title="SOAP Web 服务介绍" data-url="/blog//soap/2015/09/16/soap-web-service.html"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"suhualbog"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+		</script>
+	<!-- 多说公共JS代码 end -->
+	
+</div>
+							
+					</div>
+				</div> 
+				
+				<!-- one-fourth column -->
+				<div class="one-fourth column">
+	<div class="blog-aside">
+		<nav class="menu">
+		  
+		  	
+			 	<a class="menu-item" href="/blog/category/php"><span class="counter">1</span>php</a>
+			
+		  
+		  	
+				<a class="menu-item selected" href="/blog/category/soap"><span class="counter">2</span>soap</a>
+			
+		  		  
+		</nav>
+		<a class="rss" href="/blog/feed.xml">
+		    <span class="octicon octicon-rss"></span>
+		    Subscribe
+		</a>
+	</div>
+</div> 
+				
+			</div> 
+		</div> 
+      </div>
+    </div>
+
+    <div class="footer">
+	<div class="container">
+	  <div class="site-footer">
+	    <ul class="site-footer-links">
+	      <li><span class="tooltipped tooltipped-n" aria-label="一个记录着我成长历程的博客。">The Suhua Blog</span></li>
+	        <li><a href="/blog/">博客</a></li>
+	        <li><a href="javascript:void(0);" class="tooltipped tooltipped-ne" aria-label="别急，我还在整理呢~">智库</a></li>
+	        <li><a href="https://github.com/aisuhua">Github</a></li>
+			<li><a href="http://www.cnblogs.com/isuhua">博客园</a></li>
+			<li><a href="http://segmentfault.com/u/aisuhua">Segmentfault</a></li>
+			<li><a href="http://www.zhihu.com/people/aisuhua">知乎</a></li>
+	        <li><a href="/blog/about/">关于</a></li>
+	    </ul>
+	  </div>
+	</div>
+</div>
+
+
+<script src="/blog/js/anchor.min.js"></script>
+<script src="/blog/js/highlight.min.js"></script>
+
+
+<script>
+anchors.add('.markdown-body h2, .markdown-body h3, .markdown-body h4');
+hljs.initHighlightingOnLoad();
+</script>
+
+
+  </body>
+
+</html>
+
