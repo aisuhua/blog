@@ -40,6 +40,69 @@
 					
 					<div class="blog-post">
 						<h2 class="blog-post-title">
+							<a href="/blog/soap/2015/09/17/php-soap-note.html">学习 PHP SOAP 扩展的一些笔记</a>
+						</h2>
+						<ul class="blog-post-meta">
+							<li class="meta-item">
+								<span class="octicon octicon-calendar"></span>
+								2015-09-17
+							</li>
+							<!--
+							<li class="meta-item">
+								<img alt="@aisuhua" src="https://avatars0.githubusercontent.com/u/11390617?v=3&s=460"  class="author-avatar" height="18" width="18"> 
+								<a href="###">aisuhua</a>
+							</li>
+							-->
+							<li class="meta-item">
+								<span class="octicon octicon-file-directory"></span>
+								<a href="/blog/category/soap">soap</a>
+							</li>
+						</ul>
+						<div class="blog-post-body markdown-body">
+							<h2 id="section">如何理解</h2>
+
+<p>因为 SOAP Web 服务是基于 HTTP 协议的，发出一个 SOAP 消息请求，实际上利用 HTTP 动词中的 <code>POST</code>，然后把 SOAP 消息放置在 HTTP body 里面发送。简单来说就是：每调用一次 SOAP 服务，就是发送一条 POST 请求。</p>
+
+<p>下面是一次请求接口所发送的内容：</p>
+
+<pre><code>POST /webservices/qqOnlineWebService.asmx HTTP/1.1
+Host: www.webxml.com.cn
+Connection: Keep-Alive
+User-Agent: PHP-SOAP/5.4.29
+Content-Type: application/soap+xml; charset=utf-8; action="http://WebXml.com.cn/qqCheckOnline"
+Content-Length: 247
+
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;env:Envelope
+    xmlns:env="http://www.w3.org/2003/05/soap-envelope"
+    xmlns:ns1="http://WebXml.com.cn/"&gt;
+    &lt;env:Body&gt;
+        &lt;ns1:qqCheckOnline&gt;
+            &lt;ns1:qqCode&gt;8698053&lt;/ns1:qqCode&gt;
+        &lt;/ns1:qqCheckOnline&gt;
+    &lt;/env:Body&gt;
+&lt;/env:Envelope&gt;
+</code></pre>
+
+<p>我们可以看到，一次 SOAP 请求，实际上就是向服务器端发送了一个 <code>POST</code> 请求。而发送的内容正是 SOAP 消息（它表明你本次调用的接口方法以及参数等等）。</p>
+
+<p>这个 POST 请求，有一些特点，比如：它发送的内容类型为：<code>application/soap+xml</code>，用户代理为 <code>PHP-SOAP/5.4.29</code> ，其他特点自己观察，不多说。</p>
+
+<h2 id="soap-">SOAP 扩展的作用</h2>
+
+<p>实际上，既然我们知道请求一次接口只是发送一次 POST 请求，那么我们完全可以使用一些工具或 PHP 本身自带的一些库（比如 curl、fsockopen）模拟发送 POST 请求，而不需要使用 PHP 的 SOAP 扩展。对，没错！在 PHP 还没有提供 SOAP 扩展前，的确很多人也是这样做的。</p>
+
+<p>那干嘛要用 SOAP 扩展呢？ 因为它官网的呗，因为它用 C 语言写的，速度杠杠的，而且封装得很好用，也不需要自己编写繁琐的 XML 代码了，所以就用它。</p>
+
+<p>换句话说，实际上 SOAP 扩展就是一个更好用，速度更快，专门用于处理 SOAP 服务的 HTTP 封装库，没有什么很深奥的东西。</p>
+
+
+							<a href="/blog/soap/2015/09/17/php-soap-note.html">继续阅读...</a>
+				        </div>
+					</div>
+					
+					<div class="blog-post">
+						<h2 class="blog-post-title">
 							<a href="/blog/soap/2015/09/17/php-soap-tutorial.html">PHP SOAP 扩展的使用</a>
 						</h2>
 						<ul class="blog-post-meta">
@@ -466,7 +529,7 @@ soap.wsdl_cache_limit = 5
 			
 		  
 		  	
-				<a class="menu-item selected" href="/blog/category/soap"><span class="counter">3</span>soap</a>
+				<a class="menu-item selected" href="/blog/category/soap"><span class="counter">4</span>soap</a>
 			
 		  		  
 		</nav>

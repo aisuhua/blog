@@ -5,9 +5,300 @@
     <description>Hi, This is Suhua Blog.</description>
     <link>http://aisuhua.github.io//blog/</link>
     <atom:link href="http://aisuhua.github.io//blog/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 25 Sep 2015 09:35:56 +0800</pubDate>
-    <lastBuildDate>Fri, 25 Sep 2015 09:35:56 +0800</lastBuildDate>
+    <pubDate>Wed, 30 Sep 2015 10:30:16 +0800</pubDate>
+    <lastBuildDate>Wed, 30 Sep 2015 10:30:16 +0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>学习 PHP SOAP 扩展的一些笔记</title>
+        <description>&lt;h2 id=&quot;section&quot;&gt;如何理解&lt;/h2&gt;
+
+&lt;p&gt;因为 SOAP Web 服务是基于 HTTP 协议的，发出一个 SOAP 消息请求，实际上利用 HTTP 动词中的 &lt;code&gt;POST&lt;/code&gt;，然后把 SOAP 消息放置在 HTTP body 里面发送。简单来说就是：每调用一次 SOAP 服务，就是发送一条 POST 请求。&lt;/p&gt;
+
+&lt;p&gt;下面是一次请求接口所发送的内容：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;POST /webservices/qqOnlineWebService.asmx HTTP/1.1
+Host: www.webxml.com.cn
+Connection: Keep-Alive
+User-Agent: PHP-SOAP/5.4.29
+Content-Type: application/soap+xml; charset=utf-8; action=&quot;http://WebXml.com.cn/qqCheckOnline&quot;
+Content-Length: 247
+
+&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;
+&amp;lt;env:Envelope
+    xmlns:env=&quot;http://www.w3.org/2003/05/soap-envelope&quot;
+    xmlns:ns1=&quot;http://WebXml.com.cn/&quot;&amp;gt;
+    &amp;lt;env:Body&amp;gt;
+        &amp;lt;ns1:qqCheckOnline&amp;gt;
+            &amp;lt;ns1:qqCode&amp;gt;8698053&amp;lt;/ns1:qqCode&amp;gt;
+        &amp;lt;/ns1:qqCheckOnline&amp;gt;
+    &amp;lt;/env:Body&amp;gt;
+&amp;lt;/env:Envelope&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们可以看到，一次 SOAP 请求，实际上就是向服务器端发送了一个 &lt;code&gt;POST&lt;/code&gt; 请求。而发送的内容正是 SOAP 消息（它表明你本次调用的接口方法以及参数等等）。&lt;/p&gt;
+
+&lt;p&gt;这个 POST 请求，有一些特点，比如：它发送的内容类型为：&lt;code&gt;application/soap+xml&lt;/code&gt;，用户代理为 &lt;code&gt;PHP-SOAP/5.4.29&lt;/code&gt; ，其他特点自己观察，不多说。&lt;/p&gt;
+
+&lt;h2 id=&quot;soap-&quot;&gt;SOAP 扩展的作用&lt;/h2&gt;
+
+&lt;p&gt;实际上，既然我们知道请求一次接口只是发送一次 POST 请求，那么我们完全可以使用一些工具或 PHP 本身自带的一些库（比如 curl、fsockopen）模拟发送 POST 请求，而不需要使用 PHP 的 SOAP 扩展。对，没错！在 PHP 还没有提供 SOAP 扩展前，的确很多人也是这样做的。&lt;/p&gt;
+
+&lt;p&gt;那干嘛要用 SOAP 扩展呢？ 因为它官网的呗，因为它用 C 语言写的，速度杠杠的，而且封装得很好用，也不需要自己编写繁琐的 XML 代码了，所以就用它。&lt;/p&gt;
+
+&lt;p&gt;换句话说，实际上 SOAP 扩展就是一个更好用，速度更快，专门用于处理 SOAP 服务的 HTTP 封装库，没有什么很深奥的东西。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;使用方法&lt;/h2&gt;
+
+&lt;p&gt;PHP 的帮助手册，有关于 SOAP 扩展的详细说明文档，已经对如何使用说得很清楚了，特别手册后面的一些用户的评论和贡献的代码片段，基本上可以解决你大部分的问题。下面记录一下自己在开发过程中遇到的一些问题，以及解决的方法和一些需要注意的地方。&lt;/p&gt;
+
+&lt;h3 id=&quot;wsdl--non-wsdl&quot;&gt;WSDL 和 non-WSDL&lt;/h3&gt;
+
+&lt;p&gt;现在基本上所有 SOAP Web 服务都提供 WSDL 接口描述文件，所以 non-WSDL 这种模式基本上不用考虑。&lt;/p&gt;
+
+&lt;h3 id=&quot;soap--1&quot;&gt;关于 SOAP 版本&lt;/h3&gt;
+
+&lt;p&gt;PHP SOAP 扩展同时支持 SOAP 1.1 和 SOAP 1.2 两个版本。一般来说，现在的接口基本上也同时支持这两个 SOAP 协议版本进行通信，那么在这种情况下，当然是采用高版本的 SOAP 1.2 了。实际上，无论你是使用哪个版本，如果你是使用 SOAP 扩展来调用服务的话，在使用该扩展过程中没有任何区别，对你来说都是一样的。唯一需要你去做的是在 &lt;code&gt;SoapCient&lt;/code&gt; 进行初始化时，把 soap_version 设置为 SOAP_1_1 或 SOAP_1_2 即可，就像下面这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// SOAP 1.1 
+$client = new SoapClient($wsdl, [
+    &#39;soap_version&#39; =&amp;gt; SOAP_1_1
+]);
+
+// SOAP 1.2
+$client = new SoapClient($wsdl, [
+    &#39;soap_version&#39; =&amp;gt; SOAP_1_2
+]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;soapparam--soapvar&quot;&gt;SoapParam 和 SoapVar&lt;/h3&gt;
+
+&lt;p&gt;上面已经说了，现在的服务基本上都提供 WSDL 描述文件，如果是这样的话，这两个类 &lt;code&gt;SoapParam&lt;/code&gt; 和 &lt;code&gt;SoapVar&lt;/code&gt; 你基本上可以不用管，因为 SOAP 之所以提供这两个类，主要还是为了 PHP SOAP 扩展能够去使用一些没有 WSDL 描述文件的服务，当然这种情况基本上已经不存在了。&lt;/p&gt;
+
+&lt;h3 id=&quot;soapcall-&quot;&gt;关于 __soapCall 方法&lt;/h3&gt;
+
+&lt;p&gt;该方法也一样，一般都它只会用于 non-WSDL 模式下，因为在 WSDL 模式下，完全可以把你需要调用的方法作为 &lt;code&gt;SoapClient&lt;/code&gt; 对象的一个方法进行调用。不过，如果调用方法的 uri 与 默认的 uri 不一样时，又或者调用该方法时，你必须为它带上一个 SOAP Header 时，就需要使用 &lt;code&gt;__soapCall&lt;/code&gt; 方法了。下面是摘自官方手册的一段话：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;This is a low level API function that is used to make a SOAP call. Usually, in WSDL mode, SOAP functions can be called as methods of the SoapClient object. This method is useful in non-WSDL mode when soapaction is unknown, uri differs from the default or when sending and/or receiving SOAP Headers.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code&gt;__soapCall&lt;/code&gt; 在使用上与通过方法名直接调用的方式有一些区别。下面我们来看看几个例子。同样的，我们还是使用一个网络上可以免费使用的 SOAP 服务配合我们，该服务的主要作用是通过 QQ 号来查询该用户的在线状态。&lt;a href=&quot;http://www.webxml.com.cn/webservices/qqOnlineWebService.asmx?op=qqCheckOnline&quot;&gt;服务地址&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;下面是请求该服务时，应该发送的 SOAP 消息：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;
+&amp;lt;soap12:Envelope xmlns:soap12=&quot;http://www.w3.org/2003/05/soap-envelope&quot;&amp;gt;
+    &amp;lt;soap12:Body&amp;gt;
+        &amp;lt;qqCheckOnline xmlns=&quot;http://WebXml.com.cn/&quot;&amp;gt;
+            &amp;lt;qqCode&amp;gt;string&amp;lt;/qqCode&amp;gt;
+        &amp;lt;/qqCheckOnline&amp;gt;
+    &amp;lt;/soap12:Body&amp;gt;
+&amp;lt;/soap12:Envelope&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;通过方法名调用该接口：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+$wsdl = &#39;http://www.webxml.com.cn/webservices/qqOnlineWebService.asmx?wsdl&#39;;
+$client = new SoapClient($wsdl, [
+    &#39;soap_version&#39; =&amp;gt; SOAP_1_2
+]);
+
+$client-&amp;gt;qqCheckOnline([
+    &#39;qqCode&#39; =&amp;gt; 8698053
+]));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使用 &lt;code&gt;__soapCall&lt;/code&gt; 方法调用该接口：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+$wsdl = &#39;http://www.webxml.com.cn/webservices/qqOnlineWebService.asmx?wsdl&#39;;
+$client = new SoapClient($wsdl, [
+    &#39;soap_version&#39; =&amp;gt; SOAP_1_2
+]);
+
+$client-&amp;gt;__soapCall(&#39;qqCheckOnline&#39;, [
+    [&#39;qqCode&#39; =&amp;gt; 8698053]
+]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;重点关注两种调用方式时，参数的不一样。通过方法名直接调用的方式，参数是一维数组，而通过 &lt;code&gt;__soapCall&lt;/code&gt; 方法调用时，参数是二维数组，这是它们之间的区别之一。&lt;/p&gt;
+
+&lt;p&gt;还有第二个区别，就是 &lt;code&gt;__soapCall&lt;/code&gt; 方法可以在调用接口时，添加额外的 SOAP Header，比如这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$wsdl = &#39;http://www.example.com/service.asmx?wsdl&#39;;
+$client = new SoapClient($wsdl, [
+    &#39;soap_version&#39; =&amp;gt; SOAP_1_2
+]);
+
+$auth = [&#39;sAuthenticate&#39; =&amp;gt; &#39;ab3cde34f5r4545g&#39;];
+$namespace = &#39;http://www.example.com&#39;;
+
+$header = new SoapHeader($namespace, &#39;AuthenHeader&#39;, $auth, false);
+$client-&amp;gt;__soapCall(&quot;SomeFunction&quot;, $parameters, null, $header);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;虽然 &lt;code&gt;SoapClient&lt;/code&gt; 也有 &lt;code&gt;__setSoapHeaders&lt;/code&gt; 方法，但是它会给该实例的所有方法都添加上 SOAP Header，如果存在有些方法需要 SOAP Header 而有些又不需要的话，那么就必须使用 &lt;code&gt;__soapCall&lt;/code&gt; 方法，针对某个方法来添加 SOAP Header 了。&lt;/p&gt;
+
+&lt;h3 id=&quot;namespace&quot;&gt;关于命名空间（namespace）&lt;/h3&gt;
+
+&lt;p&gt;实际上，在 WSDL 模式下，如果不需要发送 SOAP Header 的话，那么 &lt;code&gt;namespace&lt;/code&gt; 是用不上的，因为 &lt;code&gt;namespace&lt;/code&gt; 实际上已经在 WSDL 文件中有所描述了，PHP 的 SOAP 扩展会自动把它从 WSDL 文件中解析出来，用于构造 SOAP 请求。如果 SOAP 消息中，需要添加 SOAP Header 的话，那么必须提供 &lt;code&gt;namespace&lt;/code&gt;。举个例子：&lt;/p&gt;
+
+&lt;p&gt;比如说，有一个服务它需要你发送的 SOAP 消息中必须有 SOAP Header，像下面一样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;
+&amp;lt;soap12:Envelope xmlns:soap12=&quot;http://www.w3.org/2003/05/soap-envelope&quot;&amp;gt;
+    &amp;lt;soap12:Header&amp;gt;
+        &amp;lt;AuthenHeader xmlns=&quot;http://www.example.cn&quot;&amp;gt;
+            &amp;lt;sAuthenticate&amp;gt;string&amp;lt;/sAuthenticate&amp;gt;
+        &amp;lt;/AuthenHeader&amp;gt;
+    &amp;lt;/soap12:Header&amp;gt;
+    &amp;lt;soap12:Body&amp;gt;
+        &amp;lt;GetUserInfoById xmlns=&quot;http://www.example.cn&quot;&amp;gt;
+            &amp;lt;UserID&amp;gt;int&amp;lt;/UserID&amp;gt;
+        &amp;lt;/GetUserInfoById&amp;gt;
+    &amp;lt;/soap12:Body&amp;gt;
+&amp;lt;/soap12:Envelope&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面是构造该 SOAP 请求的代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+$wsdl = &#39;http://www.example.com/service.asmx?wsdl&#39;;
+$client = new SoapClient($wsdl, [
+    &#39;soap_version&#39; =&amp;gt; SOAP_1_2
+]);
+
+$auth = [&#39;sAuthenticate&#39; =&amp;gt; &#39;ab3cde34f5r4545g&#39;];
+$namespace = &#39;http://www.example.com&#39;;
+
+$header = new SoapHeader($namespace, &#39;AuthenHeader&#39;, $auth, false);
+$client-&amp;gt;__setSoapHeaders($header);    
+
+$response = $client-&amp;gt;GetUserInfoById([
+    &#39;UserID&#39; =&amp;gt; 100
+]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以看到，使用 &lt;code&gt;SoapHeader&lt;/code&gt; 来构建一个 SOAP Header 时，必须提供 &lt;code&gt;namespace&lt;/code&gt;，而且是正确的命名空间。&lt;/p&gt;
+
+&lt;p&gt;其实，构造一个 SOAP Header 的方法不止这一种写法，还有其他写法，比如你还可以这样构造与上面一样的 SOAP 消息：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+class AuthenHeader
+{
+    private $sAuthenticate;
+    
+    public function __construct($auth)
+    {
+        $this-&amp;gt;sAuthenticate = $auth;
+    }
+}
+
+$wsdl = &#39;http://www.example.com/service.asmx?wsdl&#39;;
+$client = new SoapClient($wsdl, [ 
+    &#39;soap_version&#39; =&amp;gt; SOAP_1_2 
+]);
+
+$auth = &#39;ab3cde34f5r4545g&#39;;
+$namespace = &#39;http://www.example.com&#39;;
+
+$authenHeader = new AuthenHeader($auth);
+
+$header = new SoapHeader($namespace, &#39;AuthenHeader&#39;, $authenHeader, false);
+$client-&amp;gt;__setSoapHeaders($header);
+
+$response = $client-&amp;gt;GetUserInfoById([ 
+    &#39;UserID&#39; =&amp;gt; 100 
+]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;关于 &lt;code&gt;SoapHeader&lt;/code&gt; 其他更多的用法，推荐翻阅 PHP 手册中的 &lt;a href=&quot;http://php.net/manual/zh/book.soap.php&quot;&gt;SOAP 章节&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h3 id=&quot;soapfault&quot;&gt;关于 SoapFault&lt;/h3&gt;
+
+&lt;p&gt;服务端在处理客户端请求发生错误时，将会抛出 SoapFault 异常。对于 SOAP 扩展中，哪些方法可能会抛出异常可以查看手册。一旦发生了异常，我们都应该捕捉它们，并妥善处理。像下面这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;try {
+    $client = new SoapClient($wsdl, [
+        &#39;trace&#39; =&amp;gt; true,
+        &#39;soap_version&#39; =&amp;gt; SOAP_1_2
+    ]);
+
+    .....
+} catch(SoapFault $e) {
+    //在这里处理异常
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;getlastrequest--getlastresponse&quot;&gt;getLastRequest 和 getLastResponse&lt;/h3&gt;
+
+&lt;p&gt;这两个方法可以查看最近一次请求和响应的内容，这两个方法对于调试很有帮助。当然，这两个方法只有在 &lt;code&gt;SoapClient&lt;/code&gt; 实例化时，&lt;code&gt;trace&lt;/code&gt; 参数设置为 &lt;code&gt;true&lt;/code&gt; 才会生效。比如像这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+$wsdl = &#39;http://www.webxml.com.cn/webservices/qqOnlineWebService.asmx?wsdl&#39;;
+$client = new SoapClient($wsdl, [
+    &#39;trace&#39; =&amp;gt; true,
+    &#39;soap_version&#39; =&amp;gt; SOAP_1_2
+]);
+
+$client-&amp;gt;qqCheckOnline([
+    &#39;qqCode&#39; =&amp;gt; 8698053
+]));
+
+echo $client-&amp;gt;__getLastRequest();
+echo $client-&amp;gt;__getLastResponse();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;getLastRequest() 输出的内容：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;
+&amp;lt;env:Envelope
+    xmlns:env=&quot;http://www.w3.org/2003/05/soap-envelope&quot;
+    xmlns:ns1=&quot;http://WebXml.com.cn/&quot;&amp;gt;
+    &amp;lt;env:Body&amp;gt;
+        &amp;lt;ns1:qqCheckOnline&amp;gt;
+            &amp;lt;ns1:qqCode&amp;gt;8698053&amp;lt;/ns1:qqCode&amp;gt;
+        &amp;lt;/ns1:qqCheckOnline&amp;gt;
+    &amp;lt;/env:Body&amp;gt;
+&amp;lt;/env:Envelope&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;getLastResponse() 输出的内容：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;
+&amp;lt;soap:Envelope
+    xmlns:soap=&quot;http://www.w3.org/2003/05/soap-envelope&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot;&amp;gt;
+    &amp;lt;soap:Body&amp;gt;
+        &amp;lt;qqCheckOnlineResponse
+            xmlns=&quot;http://WebXml.com.cn/&quot;&amp;gt;
+            &amp;lt;qqCheckOnlineResult&amp;gt;Y&amp;lt;/qqCheckOnlineResult&amp;gt;
+        &amp;lt;/qqCheckOnlineResponse&amp;gt;
+    &amp;lt;/soap:Body&amp;gt;
+&amp;lt;/soap:Envelope&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;soapui-&quot;&gt;SoapUI 调试工具&lt;/h3&gt;
+
+&lt;p&gt;在调试 SOAP 服务接口时，我们可以使用功能强大的 &lt;a href=&quot;http://www.soapui.org/&quot;&gt;SoapUI&lt;/a&gt; 工具，可以很方便地调试接口。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://7xluvh.com1.z0.glb.clouddn.com/2015-8-18/soapui.png&quot;&gt;&lt;img src=&quot;http://7xluvh.com1.z0.glb.clouddn.com/2015-8-18/soapui.png&quot; alt=&quot;SoapUI&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;总结&lt;/h2&gt;
+
+&lt;p&gt;上面都是自己在学习 PHP SOAP 扩展时的一些零散的笔记，如果有不对的地方，希望大家指出，谢谢。&lt;/p&gt;
+</description>
+        <pubDate>Thu, 17 Sep 2015 23:18:44 +0800</pubDate>
+        <link>http://aisuhua.github.io//blog/soap/2015/09/17/php-soap-note.html</link>
+        <guid isPermaLink="true">http://aisuhua.github.io//blog/soap/2015/09/17/php-soap-note.html</guid>
+        
+        
+        <category>soap</category>
+        
+      </item>
     
       <item>
         <title>PHP SOAP 扩展的使用</title>
